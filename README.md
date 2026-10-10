@@ -12,18 +12,6 @@ java -Dfile.encoding=UTF-8 Main     # menu interativo (Partes 1, 2 e 3)
 ```
 
 No terminal do Windows, rode `chcp 65001` antes, para os símbolos (∪, ∩, √) aparecerem corretamente.
-
-## Estrutura
-
-| Arquivo | Conteúdo |
-|---|---|
-| `Conjunto.java` | Parte 1: conjunto genérico com todas as operações implementadas à mão |
-| `Fracao.java` | Fração exata (BigInteger), sempre simplificada |
-| `Classificador.java` | Parte 2: classificador N, Z, Q, I, R + fração geratriz + crivo + divisores |
-| `Recomendacao.java` | Parte 3 (Opção 1): recomendação por interesses com índice de Jaccard |
-| `Main.java` | Menu interativo |
-| `Testes.java` | Casos de teste sem dependências externas |
-
 ## Decisões tomadas
 
 - **Sem operadores prontos (Parte 1).** O `Conjunto` guarda uma lista sem repetidos. `adicionar` só insere se `contem(x)` for falso, então repetidos da entrada são descartados. União, interseção, diferença, diferença simétrica, inclusão e complemento usam apenas `for` e `if`. Os `HashSet` nativos aparecem somente para **validar** o resultado.
