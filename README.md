@@ -27,7 +27,11 @@ No terminal do Windows, rode `chcp 65001` antes, para os símbolos (∪, ∩, �
 
 ## Exemplos de execução
 
+<<<<<<< HEAD
 ### ||||| Parte 1 — três execuções (com comparação com a solução nativa) |||||
+=======
+### Parte 1 — três execuções (com comparação com a solução nativa)
+>>>>>>> 5296a48004812862f704ec54ae2bc2e543829553
 
 **Execução 1: caso geral** (`A = 1, 2, 2, 3, 4`; `B = 3, 4, 5, 6`; `U = 1..10`)
 
@@ -65,6 +69,7 @@ A ∪ B = {1, 2, 3, 4}   [nativo: [1, 2, 3, 4] -> OK]
 A ∩ B = {}   [nativo: [] -> OK]
 A Δ B = {1, 2, 3, 4}   [nativo: [1, 2, 3, 4] -> OK]
 ```
+
 
 # ||||| Parte 2 — Classificador de Conjuntos Numéricos |||||
 
@@ -133,6 +138,7 @@ O programa considera o zero pertencente ao conjunto dos naturais.
 As frações são simplificadas automaticamente pela biblioteca `fractions`. As dízimas periódicas são convertidas por meio do cálculo de sua fração geratriz.
 
 As raízes quadradas são classificadas por meio da verificação de quadrados perfeitos no numerador e denominador da fração simplificada.
+
 
 ### Parte 3 — recomendação por interesses (Jaccard)
 
