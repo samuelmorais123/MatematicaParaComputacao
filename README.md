@@ -27,11 +27,7 @@ No terminal do Windows, rode `chcp 65001` antes, para os símbolos (∪, ∩, �
 
 ## Exemplos de execução
 
-<<<<<<< HEAD
-### ||||| Parte 1 — três execuções (com comparação com a solução nativa) |||||
-=======
 ### Parte 1 — três execuções (com comparação com a solução nativa)
->>>>>>> 5296a48004812862f704ec54ae2bc2e543829553
 
 **Execução 1: caso geral** (`A = 1, 2, 2, 3, 4`; `B = 3, 4, 5, 6`; `U = 1..10`)
 
@@ -108,7 +104,7 @@ Abra o terminal na pasta do projeto e execute:
 
 ```bash
 python classificador.py
-
+```
 
 O programa exibirá um menu com as funcionalidades disponíveis.
 
@@ -144,17 +140,46 @@ As raízes quadradas são classificadas por meio da verificação de quadrados p
 
 Interesses: Ana = {rock, jazz, cinema, games}; Bia = {jazz, cinema, séries, viagens}; Caio = {games, tecnologia, cinema}.
 
+#### Cenários de uso obrigatórios (Cálculo à mão vs. Saída do programa)
+
+1. **Cenário 1 — Ana e Caio:**
+   - Interseção à mão: $\{games, cinema\} \rightarrow 2$ elementos.
+   - União à mão: $\{rock, jazz, cinema, games, tecnologia\} \rightarrow 5$ elementos.
+   - Jaccard calculado à mão: $2/5 = 0,40$.
+   - Saída do programa: `similaridade = 0.40`.
+
+2. **Cenário 2 — Ana e Bia:**
+   - Interseção à mão: $\{jazz, cinema\} \rightarrow 2$ elementos.
+   - União à mão: $\{rock, jazz, cinema, games, series, viagens\} \rightarrow 6$ elementos.
+   - Jaccard calculado à mão: $2/6 \approx 0,33$.
+   - Saída do programa: `similaridade = 0.33`.
+
+3. **Cenário 3 — Bia e Caio:**
+   - Interseção à mão: $\{cinema\} \rightarrow 1$ elemento.
+   - União à mão: $\{jazz, cinema, series, viagens, games, tecnologia\} \rightarrow 6$ elementos.
+   - Jaccard calculado à mão: $1/6 \approx 0,17$.
+   - Saída do programa: `similaridade = 0.17`.
+
 | Par | Interseção | União | Jaccard (à mão) | Programa |
 |---|---|---|---|---|
 | Ana e Bia | {cinema, jazz} (2) | 6 | 2/6 ≈ 0,33 | 0.33 |
 | Ana e Caio | {cinema, games} (2) | 5 | 2/5 = 0,40 | 0.40 |
 | Bia e Caio | {cinema} (1) | 6 | 1/6 ≈ 0,17 | 0.17 |
 
-```
-Recomendações para Ana: Caio (0.40)  Bia (0.33)
+```text
+Recomendações para Ana:
+- Caio: similaridade = 0.40 (interseção = {cinema, games}, união = 5)
+- Bia: similaridade = 0.33 (interseção = {cinema, jazz}, união = 6)
 ```
 
-Cenários adicionais (em `Testes.java`): conjuntos iguais → 1,0; conjuntos disjuntos → 0,0; interesses repetidos na entrada (`jazz, jazz, jazz`) contam uma vez só.
+Resultado esperado: para a Ana, a recomendação mais forte é o Caio, por possuir o maior índice de afinidade (0,40 > 0,33).
+
+#### Casos de teste de borda da Parte 3
+
+- **Conjuntos vazios:** Se ambos os usuários não têm interesses cadastrados ($\emptyset$ e $\emptyset$), a união é 0 e o programa retorna afinidade `0.0`, prevenindo divisão por zero.
+- **Conjuntos iguais:** Dois perfis com exatamente os mesmos gostos resultam em $J = 1,00$ (afinidade máxima).
+- **Conjuntos disjuntos:** Perfis sem nenhum interesse em comum (interseção $\emptyset$) resultam em $J = 0,00$.
+- **Elementos repetidos na entrada:** Entradas com duplicatas (ex.: `jazz, jazz, jazz`) têm suas repetições descartadas pela classe `Conjunto`, computando a cardinalidade correta.
 
 ## Casos de teste
 

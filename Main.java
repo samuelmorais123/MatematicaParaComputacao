@@ -1,21 +1,22 @@
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
 import java.util.TreeSet;
- 
+
 /**
- * Parte 1 - Programa de menu para operações com dois conjuntos A e B.
- * Usa a classe Conjunto (operações implementadas com laços e condicionais)
- * e compara cada resultado com a solução nativa do Java para validar.
+ * Menu interativo para operações com conjuntos e recomendação (Partes 1 e 3).
  */
 public class Main {
- 
+
     static final Scanner in = new Scanner(System.in);
- 
+
     public static void main(String[] args) {
         System.out.println("=== Parte 1: Operações com conjuntos ===");
         Conjunto<Integer> a = null, b = null, u = null;
- 
+
         while (true) {
             try {
                 if (a == null) {
@@ -29,7 +30,7 @@ public class Main {
                     System.out.println("B = " + b + "   |B| = " + b.cardinalidade());
                     System.out.println("U = " + u);
                 }
- 
+
                 System.out.println();
                 System.out.println(" 1) A ∪ B        2) A ∩ B        3) A − B");
                 System.out.println(" 4) B − A        5) A Δ B        6) x ∈ A");
@@ -37,22 +38,46 @@ public class Main {
                 System.out.println("10) Complemento de A em U");
                 System.out.println("11) Todas as operações");
                 System.out.println("12) Informar novos conjuntos");
+                System.out.println("13) Parte 3: Recomendação por interesses (Jaccard)");
                 System.out.println(" 0) Sair");
                 System.out.print("Operação: ");
                 if (!in.hasNextLine()) return;
                 String op = in.nextLine().trim();
- 
+
                 if (op.equals("0")) return;
                 if (op.equals("12")) { a = null; continue; }
+                if (op.equals("13")) {
+                    executarParte3();
+                    continue;
+                }
                 executar(op, a, b, u);
- 
+
             } catch (NumberFormatException e) {
                 System.out.println("Entrada inválida: use apenas números inteiros.");
                 a = null; // volta a pedir os conjuntos
             }
         }
     }
- 
+
+    /** Executa o cenário estrito da Parte 3 conforme enunciado das folhas */
+    static void executarParte3() {
+        System.out.println("\n--- Parte 3: Recomendação por interesses (Índice de Jaccard) ---");
+
+        Map<String, Conjunto<String>> base = new HashMap<>();
+        base.put("Ana", Conjunto.de("rock", "jazz", "cinema", "games"));
+        base.put("Bia", Conjunto.de("jazz", "cinema", "series", "viagens"));
+        base.put("Caio", Conjunto.de("games", "tecnologia", "cinema"));
+
+        String usuarioAlvo = "Ana";
+        List<Recomendador.Recomendacao> recs = Recomendador.recomendar(usuarioAlvo, base);
+
+        System.out.println("Recomendações para " + usuarioAlvo + ":");
+        for (Recomendador.Recomendacao r : recs) {
+            System.out.printf("- %s: similaridade = %.2f (interseção = %s, união = %d)%n",
+                    r.nomeUsuario, r.similaridade, r.emComum, r.totalUniao);
+        }
+    }
+
     /** Aceita "1, 2, 2, 3", "1 2 3", "1..10" ou linha vazia (conjunto vazio). */
     static Conjunto<Integer> lerConjunto(String linha) {
         Conjunto<Integer> c = new Conjunto<>();
@@ -70,7 +95,7 @@ public class Main {
         }
         return c;
     }
- 
+
     static void executar(String op, Conjunto<Integer> a, Conjunto<Integer> b, Conjunto<Integer> u) {
         Set<Integer> na = a.paraNativo(), nb = b.paraNativo(), nu = u.paraNativo();
         switch (op) {
@@ -136,7 +161,7 @@ public class Main {
                 System.out.println("Operação inválida.");
         }
     }
- 
+
     static void mostrarPertinencia(Conjunto<Integer> a, Set<Integer> na) {
         if (!a.vazio()) {
             int dentro = a.elementos().get(0);
@@ -146,17 +171,16 @@ public class Main {
         while (a.contem(fora)) fora++;
         mostrarBool(fora + " ∈ A", a.contem(fora), na.contains(fora));
     }
- 
+
     static void mostrar(String nome, Conjunto<Integer> meu, Set<Integer> nativo) {
         boolean ok = meu.paraNativo().equals(nativo);
         System.out.println(nome + " = " + meu + "   [nativo: " + new TreeSet<>(nativo)
                 + " -> " + (ok ? "OK" : "DIVERGE") + "]");
     }
- 
+
     static void mostrarBool(String nome, boolean meu, boolean nativo) {
         System.out.println(nome + " ? " + (meu ? "Verdadeiro" : "Falso")
                 + "   [nativo: " + (nativo ? "Verdadeiro" : "Falso") + " -> "
                 + (meu == nativo ? "OK" : "DIVERGE") + "]");
     }
 }
- 
